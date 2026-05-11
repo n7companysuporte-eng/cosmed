@@ -1,0 +1,595 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>N7 Rota Control</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:#f5f7fa;
+    color:#111;
+    padding-bottom:100px;
+}
+
+.header{
+    background:linear-gradient(135deg,#00c853,#00e676);
+    padding:30px 20px;
+    border-radius:0 0 35px 35px;
+    color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.logo-icon{
+    width:55px;
+    height:55px;
+    border-radius:18px;
+    background:white;
+    color:#00c853;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    font-size:22px;
+}
+
+.logo-text h1{
+    font-size:24px;
+    font-weight:800;
+}
+
+.logo-text p{
+    font-size:12px;
+    opacity:.9;
+}
+
+.balance-card{
+    margin-top:25px;
+    background:white;
+    border-radius:28px;
+    padding:25px;
+    color:#111;
+}
+
+.balance-card h2{
+    font-size:14px;
+    color:#666;
+    margin-bottom:10px;
+}
+
+.balance-card h1{
+    font-size:38px;
+    color:#00c853;
+    font-weight:800;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.mini-card{
+    background:#f5f7fa;
+    border-radius:22px;
+    padding:18px;
+}
+
+.mini-card span{
+    font-size:12px;
+    color:#666;
+}
+
+.mini-card h3{
+    margin-top:8px;
+    font-size:24px;
+    color:#00c853;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:28px;
+    padding:22px;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.card-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.card-title h2{
+    font-size:20px;
+    font-weight:700;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:600;
+    color:#555;
+}
+
+.input-group input,
+.input-group select{
+    width:100%;
+    border:none;
+    background:#f1f5f9;
+    padding:16px;
+    border-radius:18px;
+    outline:none;
+    font-size:15px;
+}
+
+.btn{
+    width:100%;
+    border:none;
+    padding:17px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#00c853,#00e676);
+    color:white;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:active{
+    transform:scale(.98);
+}
+
+.list{
+    margin-top:20px;
+}
+
+.item{
+    background:#f5f7fa;
+    padding:18px;
+    border-radius:18px;
+    margin-bottom:12px;
+}
+
+.item strong{
+    display:block;
+    margin-bottom:6px;
+    color:#00c853;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:white;
+    padding:16px;
+    display:flex;
+    justify-content:space-around;
+    box-shadow:0 -5px 20px rgba(0,0,0,.08);
+}
+
+.nav-item{
+    text-align:center;
+    font-size:12px;
+    color:#666;
+}
+
+.nav-item strong{
+    display:block;
+    color:#00c853;
+    margin-bottom:4px;
+}
+
+.ai-box{
+    background:linear-gradient(135deg,#00c85315,#00e67615);
+    border:2px solid #00c85320;
+    border-radius:22px;
+    padding:18px;
+    margin-top:20px;
+}
+
+.ai-box h3{
+    color:#00c853;
+    margin-bottom:10px;
+}
+
+.badge{
+    display:inline-block;
+    padding:7px 14px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    margin-top:10px;
+}
+
+.warning{
+    background:#fff8e1;
+    color:#ff9800;
+}
+
+.success{
+    background:#e8f5e9;
+    color:#00c853;
+}
+
+@media(max-width:400px){
+
+    .balance-card h1{
+        font-size:30px;
+    }
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="header">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            N7
+        </div>
+
+        <div class="logo-text">
+            <h1>N7 Rota Control</h1>
+            <p>"O Senhor é o meu pastor e nada me faltará."</p>
+        </div>
+
+    </div>
+
+    <div class="balance-card">
+
+        <h2>Total em vendas</h2>
+
+        <h1 id="totalVendas">
+            R$ 0,00
+        </h1>
+
+        <div class="grid">
+
+            <div class="mini-card">
+                <span>Clientes</span>
+                <h3 id="clientesTotal">0</h3>
+            </div>
+
+            <div class="mini-card">
+                <span>Promissórias</span>
+                <h3 id="promissoriasTotal">0</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="card-title">
+            <h2>Cadastrar Cliente</h2>
+        </div>
+
+        <div class="input-group">
+            <label>Nome</label>
+            <input type="text" id="clienteNome">
+        </div>
+
+        <div class="input-group">
+            <label>Telefone</label>
+            <input type="text" id="clienteTelefone">
+        </div>
+
+        <div class="input-group">
+            <label>Cidade</label>
+            <input type="text" id="clienteCidade">
+        </div>
+
+        <button class="btn" onclick="addCliente()">
+            Salvar Cliente
+        </button>
+
+        <div class="list" id="clientesList"></div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            <h2>Registrar Venda</h2>
+        </div>
+
+        <div class="input-group">
+            <label>Cliente</label>
+            <input type="text" id="vendaCliente">
+        </div>
+
+        <div class="input-group">
+            <label>Produto</label>
+            <input type="text" id="vendaProduto">
+        </div>
+
+        <div class="input-group">
+            <label>Valor</label>
+            <input type="number" id="vendaValor">
+        </div>
+
+        <div class="input-group">
+            <label>Pagamento</label>
+
+            <select id="vendaForma">
+                <option>Pix</option>
+                <option>Dinheiro</option>
+                <option>Promissória</option>
+                <option>Cartão</option>
+            </select>
+        </div>
+
+        <button class="btn" onclick="registrarVenda()">
+            Registrar Venda
+        </button>
+
+        <div class="list" id="vendasList"></div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            <h2>IA Estratégica</h2>
+        </div>
+
+        <div class="ai-box">
+
+            <h3>Sugestão Inteligente</h3>
+
+            <p id="mensagemIA">
+                Cliente Maria está há 30 dias sem comprar cosméticos capilares.
+            </p>
+
+            <div class="badge warning">
+                Atenção
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="bottom-nav">
+
+    <div class="nav-item">
+        <strong>Dashboard</strong>
+        Home
+    </div>
+
+    <div class="nav-item">
+        <strong>Clientes</strong>
+        CRM
+    </div>
+
+    <div class="nav-item">
+        <strong>Financeiro</strong>
+        Caixa
+    </div>
+
+    <div class="nav-item">
+        <strong>Rotas</strong>
+        Equipe
+    </div>
+
+</div>
+
+<script>
+
+let clientes =
+JSON.parse(localStorage.getItem('clientes')) || [];
+
+let vendas =
+JSON.parse(localStorage.getItem('vendas')) || [];
+
+function salvarDados(){
+
+    localStorage.setItem(
+        'clientes',
+        JSON.stringify(clientes)
+    );
+
+    localStorage.setItem(
+        'vendas',
+        JSON.stringify(vendas)
+    );
+
+}
+
+function atualizarDashboard(){
+
+    let total = 0;
+
+    vendas.forEach(venda => {
+
+        total += Number(venda.valor);
+
+    });
+
+    document.getElementById('totalVendas')
+    .innerText =
+    'R$ ' + total.toFixed(2);
+
+    document.getElementById('clientesTotal')
+    .innerText =
+    clientes.length;
+
+    let promissorias =
+    vendas.filter(v => v.forma === 'Promissória');
+
+    document.getElementById('promissoriasTotal')
+    .innerText =
+    promissorias.length;
+
+}
+
+function renderClientes(){
+
+    let html = '';
+
+    clientes.forEach(cliente => {
+
+        html += `
+            <div class="item">
+                <strong>${cliente.nome}</strong>
+                ${cliente.telefone}<br>
+                ${cliente.cidade}
+            </div>
+        `;
+
+    });
+
+    document.getElementById('clientesList')
+    .innerHTML = html;
+
+}
+
+function renderVendas(){
+
+    let html = '';
+
+    vendas.forEach(venda => {
+
+        html += `
+            <div class="item">
+                <strong>${venda.cliente}</strong>
+                ${venda.produto}<br>
+                R$ ${venda.valor}<br>
+                <div class="badge success">
+                    ${venda.forma}
+                </div>
+            </div>
+        `;
+
+    });
+
+    document.getElementById('vendasList')
+    .innerHTML = html;
+
+}
+
+function addCliente(){
+
+    let nome =
+    document.getElementById('clienteNome').value;
+
+    let telefone =
+    document.getElementById('clienteTelefone').value;
+
+    let cidade =
+    document.getElementById('clienteCidade').value;
+
+    if(nome === ''){
+        alert('Digite o nome');
+        return;
+    }
+
+    clientes.push({
+        nome,
+        telefone,
+        cidade
+    });
+
+    salvarDados();
+
+    renderClientes();
+
+    atualizarDashboard();
+
+    document.getElementById('clienteNome').value = '';
+    document.getElementById('clienteTelefone').value = '';
+    document.getElementById('clienteCidade').value = '';
+
+}
+
+function registrarVenda(){
+
+    let cliente =
+    document.getElementById('vendaCliente').value;
+
+    let produto =
+    document.getElementById('vendaProduto').value;
+
+    let valor =
+    document.getElementById('vendaValor').value;
+
+    let forma =
+    document.getElementById('vendaForma').value;
+
+    if(cliente === '' || valor === ''){
+        alert('Preencha os campos');
+        return;
+    }
+
+    vendas.push({
+        cliente,
+        produto,
+        valor,
+        forma
+    });
+
+    salvarDados();
+
+    renderVendas();
+
+    atualizarDashboard();
+
+    document.getElementById('vendaCliente').value = '';
+    document.getElementById('vendaProduto').value = '';
+    document.getElementById('vendaValor').value = '';
+
+}
+
+atualizarDashboard();
+
+renderClientes();
+
+renderVendas();
+
+</script>
+
+</body>
+</html>
+```
